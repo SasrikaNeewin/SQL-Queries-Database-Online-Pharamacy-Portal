@@ -141,7 +141,7 @@ INSERT INTO Manufacture VALUES('M002', 'XYZ pvt ltd', 'xyz@gmail.com', 'Kandy');
 INSERT INTO Manufacture VALUES('M003', 'SMS pvt ltd', 'sms@gmail.com', 'Matara');
 INSERT INTO Manufacture VALUES('M004', 'HMS pvt ltd', 'hms@gmail.com', 'Galle');
 INSERT INTO Manufacture VALUES('M005', 'PQR pvt ltd', 'pqr@gmail.com', 'Gampaha');
-Page | 15
+
 --Insert data into Inquiry table--
 INSERT INTO Inquiry VALUES('I001', 'When will my order be recieved?', 'C001', 'E001');
 INSERT INTO Inquiry VALUES('I002', 'Is panadol available?', 'C002', 'E002');
