@@ -1,0 +1,184 @@
+SQL QUERIES TO CREATE THE DATABASE
+--Customer table--
+CREATE TABLE Customer(
+CID char(4),
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+c_email VARCHAR(30),
+c_address VARCHAR(100),
+CONSTRAINT Customer_PK PRIMARY KEY(CID),
+CONSTRAINT check_c_email CHECK(c_email LIKE '%@%')
+);
+--Employee table--
+CREATE TABLE Employee(
+EID char(4),
+Fname VARCHAR(50),
+Lname VARCHAR(50),
+e_age INT,
+e_address VARCHAR(100),
+CONSTRAINT Employee_PK PRIMARY KEY(EID)
+);
+--Product table--
+CREATE TABLE Product(
+PID char(4),
+p_name VARCHAR(50),
+p_price real,
+p_quantity char(4),
+p_manufacture date,
+p_expiry date,
+CONSTRAINT Product_PK PRIMARY KEY(PID),
+CONSTRAINT check_pid CHECK(PID LIKE 'P%')
+);
+
+--Payment table--
+CREATE TABLE Payment(
+pay_id char(4),
+pay_cardNo char(16),
+CID char(4),
+EID char(4),
+CONSTRAINT Payment_PK PRIMARY KEY(pay_id),
+CONSTRAINT Payment_FK_1 FOREIGN KEY(CID) REFERENCES Customer(CID),
+CONSTRAINT Payment_FK_2 FOREIGN KEY(EID) REFERENCES Employee(EID),
+CONSTRAINT check_pay_cardNo CHECK(pay_cardNo LIKE '[0-9][0-9][0-9][0-9][0-9][0-
+9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
+);
+--Manufacture table--
+CREATE TABLE Manufacture(
+MID char(4),
+m_name VARCHAR(50),
+m_email VARCHAR(30),
+m_location VARCHAR(50),
+CONSTRAINT Manufacture_PK PRIMARY KEY(MID),
+CONSTRAINT check_m_email CHECK(m_email LIKE '%@%')
+);
+--Inquiry table--
+CREATE TABLE Inquiry(
+inq_id char(4),
+i_message VARCHAR(50),
+CID char(4),
+EID char(4),
+CONSTRAINT Inquiry_PK PRIMARY KEY(inq_id),
+CONSTRAINT Inquiry_FK_1 FOREIGN KEY(CID) REFERENCES Customer(CID),
+CONSTRAINT Inquiry_FK_2 FOREIGN KEY(EID) REFERENCES Employee(EID)
+);
+---Customer contact table--
+CREATE TABLE C_contact(
+CID char(4),
+c_phone CHAR(10),
+CONSTRAINT C_contact_PK PRIMARY KEY(CID,c_phone),
+CONSTRAINT C_contact_FK FOREIGN KEY(CID) REFERENCES Customer(CID),
+CONSTRAINT check_c_phone CHECK(c_phone LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-
+9][0-9][0-9]')
+);
+
+--Employee contact table
+CREATE TABLE E_contact(
+EID char(4),
+e_phone CHAR(10),
+CONSTRAINT E_contact_PK PRIMARY KEY(EID,e_phone),
+CONSTRAINT E_contact_FK FOREIGN KEY(EID) REFERENCES Employee(EID),
+CONSTRAINT check_e_phone CHECK(e_phone LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-
+9][0-9][0-9]')
+);
+--Buys table--
+CREATE TABLE Buys(
+CID char(4),
+PID char(4),
+CONSTRAINT Buys_PK PRIMARY KEY(CID,PID),
+CONSTRAINT Buys_FK_1 FOREIGN KEY(CID) REFERENCES Customer(CID),
+CONSTRAINT Buys_FK_2 FOREIGN KEY(PID) REFERENCES Product(PID)
+);
+--Manage table
+CREATE TABLE Manage(
+EID char(4),
+PID char(4),
+CONSTRAINT Manage_PK PRIMARY KEY(EID,PID),
+CONSTRAINT Manage_FK_1 FOREIGN KEY(EID) REFERENCES Employee(EID),
+CONSTRAINT Manage_FK_2 FOREIGN KEY(PID) REFERENCES Product(PID)
+);
+--Supply table--
+CREATE TABLE Supply(
+MID char(4),
+PID char(4),
+CONSTRAINT Supply_PK PRIMARY KEY(MID,PID),
+CONSTRAINT Supply_FK_1 FOREIGN KEY(MID) REFERENCES Manufacture(MID),
+CONSTRAINT Supply_FK_2 FOREIGN KEY(PID) REFERENCES Product(PID)
+);
+
+SQL TO INSERT SAMPLE DATA
+--Insert data into Customer table--
+INSERT INTO Customer VALUES('C001', 'Chamal','Rajapakshe', 'chamal@gmail.com',
+'Mawanella, Kandy');
+INSERT INTO Customer VALUES('C002', 'Nimal','Perera', 'nimal@gmail.com', 'Ahangama, 
+Galle');
+INSERT INTO Customer VALUES('C003', 'Kamal','Gunawardhane', 'kamal@gmail.com',
+'Mirissa, Matara');
+INSERT INTO Customer VALUES('C004', 'Basil','Edirisinghe', 'basil@gmail.com', 'Sigiriya, 
+Dambulla');
+INSERT INTO Customer VALUES('C005', 'Namal','Amarasinghe', 'namal@gmail.com',
+'Akuressa, Matara');
+--Insert data into Employee table--
+INSERT INTO Employee VALUES('E001', 'Sasrika', 'Neewin', 35, 'Yakkala, Gampaha');
+INSERT INTO Employee VALUES('E002', 'Chathura', 'Navod', 42, 'Malabe, Kaduwela');
+INSERT INTO Employee VALUES('E003', 'Tharaka', 'Aravinda', 37, 'Matale, Kandy');
+INSERT INTO Employee VALUES('E004', 'Kisara', 'Dulkith', 40, 'Kelaniya, Colombo');
+INSERT INTO Employee VALUES('E005', 'Nethma', 'Sandumina', 25, 'Weligama, Matara');
+--Insert data into Product table--
+INSERT INTO Product VALUES('P001', 'Amikacin', 20.00, '10mg', '2022-04-21', '2024-04-21');
+INSERT INTO Product VALUES('P002', 'Panadol', 15.00, '5mg', '2022-05-21', '2023-05-21');
+INSERT INTO Product VALUES('P003', 'Calcium', 25.00, '20mg', '2022-04-22', '2024-04-22');
+INSERT INTO Product VALUES('P004', 'Mesna', 12.00, '25mg', '2022-03-20', '2026-03-20');
+INSERT INTO Product VALUES('P005', 'Warfarin', 18.00, '30mg', '2022-03-26', '2025-03-26');
+--Insert data into Payment table--
+INSERT INTO Payment VALUES('id01', '0000000000001001', 'C001', 'E001');
+INSERT INTO Payment VALUES('id02', '0000000000001002', 'C002', 'E002');
+INSERT INTO Payment VALUES('id03', '0000000000001003', 'C003', 'E003');
+INSERT INTO Payment VALUES('id04', '0000000000001004', 'C004', 'E004');
+INSERT INTO Payment VALUES('id05', '0000000000001005', 'C005', 'E005');
+--Insert data into Manufacture table--
+INSERT INTO Manufacture VALUES('M001', 'ABC pvt ltd', 'abc@gmail.com', 'Colombo');
+INSERT INTO Manufacture VALUES('M002', 'XYZ pvt ltd', 'xyz@gmail.com', 'Kandy');
+INSERT INTO Manufacture VALUES('M003', 'SMS pvt ltd', 'sms@gmail.com', 'Matara');
+INSERT INTO Manufacture VALUES('M004', 'HMS pvt ltd', 'hms@gmail.com', 'Galle');
+INSERT INTO Manufacture VALUES('M005', 'PQR pvt ltd', 'pqr@gmail.com', 'Gampaha');
+Page | 15
+--Insert data into Inquiry table--
+INSERT INTO Inquiry VALUES('I001', 'When will my order be recieved?', 'C001', 'E001');
+INSERT INTO Inquiry VALUES('I002', 'Is panadol available?', 'C002', 'E002');
+INSERT INTO Inquiry VALUES('I003', 'Can I pay by cash?', 'C003', 'E003');
+INSERT INTO Inquiry VALUES('I004', 'When it expiry date?', 'C004', 'E004');
+INSERT INTO Inquiry VALUES('I005', 'Can I exchange?', 'C005', 'E005');
+--Insert data into Customer Contact table--
+INSERT INTO C_contact VALUES('C001', '0771234567');
+INSERT INTO C_contact VALUES('C001', '0418756952');
+INSERT INTO C_contact VALUES('C002', '0757654324');
+INSERT INTO C_contact VALUES('C003', '0777657321');
+INSERT INTO C_contact VALUES('C003', '0717654321');
+INSERT INTO C_contact VALUES('C004', '0747655321');
+INSERT INTO C_contact VALUES('C005', '0415485265');
+--Insert data into Employee Contact table--
+INSERT INTO E_contact VALUES('E001', '0750485765');
+INSERT INTO E_contact VALUES('E002', '0413587456');
+INSERT INTO E_contact VALUES('E002', '0772846912');
+INSERT INTO E_contact VALUES('E003', '0747893642');
+INSERT INTO E_contact VALUES('E004', '0700102054');
+INSERT INTO E_contact VALUES('E004', '0717391425');
+INSERT INTO E_contact VALUES('E005', '0750478961');
+--Insert data into Buys table--
+INSERT INTO Buys VALUES('C001', 'P001');
+INSERT INTO Buys VALUES('C002', 'P002');
+INSERT INTO Buys VALUES('C003', 'P003');
+INSERT INTO Buys VALUES('C004', 'P004');
+INSERT INTO Buys VALUES('C005', 'P005');
+--Insert data into Manage table--
+INSERT INTO Manage VALUES('E001', 'P001');
+INSERT INTO Manage VALUES('E002', 'P002');
+INSERT INTO Manage VALUES('E003', 'P003');
+INSERT INTO Manage VALUES('E004', 'P004');
+INSERT INTO Manage VALUES('E005', 'P005');
+--Insert data into Supply table--
+INSERT INTO Supply VALUES('M001', 'P001');
+INSERT INTO Supply VALUES('M002', 'P002');
+INSERT INTO Supply VALUES('M003', 'P003');
+INSERT INTO Supply VALUES('M004', 'P004');
+INSERT INTO Supply VALUES('M005', 'P005');
